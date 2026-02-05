@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Tim!</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4CAF50" />
+
+  <!-- Fuente divertida -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#7e57c2">
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+</head>
+
+<body>
+
+  <main class="app">
+
+    <!-- TÍTULO -->
+    <h1 id="gameTitle">Tim!</h1>
+
+    <!-- CONTENEDOR DE LA MASCOTA -->
+    <section class="pet-container">
+      
+      <section id="playUI" class="play-ui" style="display:none;">
+  <p id="tapCounter">Toques: 0 / 100</p>
+  <p id="timer">Tempo: 25s</p>
+</section>
+
+      <!-- IMAGEN DE LA MASCOTA -->
+      <img
+        id="petSprite"
+        src="sprites/pet_idle.png"
+        alt="Aquí aparecerá Tim"
+        onerror="this.style.display='none'; document.getElementById('petPlaceholder').style.display='flex';"
+      />
+
+      <!-- PLACEHOLDER VISUAL -->
+      <div id="petPlaceholder" class="pet-placeholder">
+        Tim está por chegar!<br>
+        (Pésanlle os lunares)
+      </div>
+
+    </section>
+
+    <!-- ESTADOS -->
+    <section class="stats">
+        <div class="bar">
+  <label>Barriguita feliz: <span id="hungerValue">50</span></label>
+  <progress id="hungerBar" max="100" value="50"></progress>
+</div>
+      </div>
+<div class="bar">
+  <label>Xogar: <span id="energyValue">50</span></label>
+  <progress id="energyBar" max="100" value="50"></progress>
+</div>
+<div class="bar">
+  <label>Soñó zzTim: <span id="happinessValue">50</span></label>
+  <progress id="happinessBar" max="100" value="50"></progress>
+</div>
+
+    </section>
+
+    <!-- BOTONES -->
+    <section class="actions">
+
+      <button id="feedBtn">Dar de comere ÑAM</button>
+      <button id="playBtn">Xogar JIJI</button>
+      <button id="sleepBtn">Durmir que xa vai sendo hora</button>
+
+    </section>
+
+    <!-- MENSAJES -->
+    <section class="message">
+      <p id="gameMessage">Estáse a agardar por Susi :)</p>
+    </section>
+
+  </main>
+
+  <!-- LÓGICA DEL JUEGO -->
+  <script src="game.js"></script>
+
+</body>
+</html>
