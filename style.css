@@ -171,7 +171,7 @@ progress::-moz-progress-bar {
 }
 
 .fruit-game.active {
-  display: flex;
+  display: block;
 }
 
 #fruitOverlay {
