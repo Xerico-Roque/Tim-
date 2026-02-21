@@ -8,20 +8,19 @@
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#4CAF50" />
+  <meta name="theme-color" content="#7e57c2" />
 
-  <!-- Fuente divertida -->
+  <!-- Fuente -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
 
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json"/>
-<meta name="theme-color" content="#7e57c2">
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
-</script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("Service Worker.js");
+    }
+  </script>
 </head>
 
 <body>
@@ -31,15 +30,16 @@ if ("serviceWorker" in navigator) {
     <!-- TÍTULO -->
     <h1 id="gameTitle">Tim!</h1>
 
-    <!-- CONTENEDOR DE LA MASCOTA -->
+    <!-- CONTENEDOR MASCOTA -->
     <section class="pet-container">
-      
-      <section id="playUI" class="play-ui" style="display:none;">
-  <p id="tapCounter">Toques: 0 / 100</p>
-  <p id="timer">Tempo: 25s</p>
-</section>
 
-      <!-- IMAGEN DE LA MASCOTA -->
+      <!-- UI DEL RETO -->
+      <section id="playUI" class="play-ui" style="display:none;">
+        <p id="tapCounter">Toques: 0 / 100</p>
+        <p id="timer">Tempo: 25s</p>
+      </section>
+
+      <!-- SPRITE -->
       <img
         id="petSprite"
         src="sprites/pet_idle.png"
@@ -47,7 +47,7 @@ if ("serviceWorker" in navigator) {
         onerror="this.style.display='none'; document.getElementById('petPlaceholder').style.display='flex';"
       />
 
-      <!-- PLACEHOLDER VISUAL -->
+      <!-- PLACEHOLDER -->
       <div id="petPlaceholder" class="pet-placeholder">
         Tim está por chegar!<br>
         (Pésanlle os lunares)
@@ -57,29 +57,27 @@ if ("serviceWorker" in navigator) {
 
     <!-- ESTADOS -->
     <section class="stats">
-        <div class="bar">
-  <label>Barriguita feliz: <span id="hungerValue">50</span></label>
-  <progress id="hungerBar" max="100" value="50"></progress>
-</div>
+      <div class="bar">
+        <label>Barriguita feliz: <span id="hungerValue">50</span></label>
+        <progress id="hungerBar" max="100" value="50"></progress>
       </div>
-<div class="bar">
-  <label>Xogar: <span id="energyValue">50</span></label>
-  <progress id="energyBar" max="100" value="50"></progress>
-</div>
-<div class="bar">
-  <label>Soñó zzTim: <span id="happinessValue">50</span></label>
-  <progress id="happinessBar" max="100" value="50"></progress>
-</div>
 
+      <div class="bar">
+        <label>Xogar: <span id="energyValue">50</span></label>
+        <progress id="energyBar" max="100" value="50"></progress>
+      </div>
+
+      <div class="bar">
+        <label>Descanso post-zzTim: <span id="happinessValue">50</span></label>
+        <progress id="happinessBar" max="100" value="50"></progress>
+      </div>
     </section>
 
     <!-- BOTONES -->
     <section class="actions">
-
       <button id="feedBtn">Dar de comere ÑAM</button>
       <button id="playBtn">Xogar JIJI</button>
       <button id="sleepBtn">Durmir que xa vai sendo hora</button>
-
     </section>
 
     <!-- MENSAJES -->
@@ -87,9 +85,25 @@ if ("serviceWorker" in navigator) {
       <p id="gameMessage">Estáse a agardar por Susi :)</p>
     </section>
 
+    <!-- LISTA DE PENSAMIENTOS -->
+    <section class="thoughts">
+      <h2>Lista de comidiñas de Tim :)</h2>
+      <ul id="thoughtList"></ul>
+    </section>
+
+    <!-- MINIJUEGO FRUTAS (POP-UP) -->
+    <section id="fruitGame" class="fruit-game" style="display:none;">
+      <div id="fruitOverlay"></div>
+      <div class="fruitGameUI">
+        <div id="fruitScore">0</div>
+        <div id="fruitTimer">60s</div>
+        <img id="timPlayer" src="sprites/tim_front.png" class="tim-player" />
+      </div>
+    </section>
+
   </main>
 
-  <!-- LÓGICA DEL JUEGO -->
+  <!-- GAME -->
   <script src="game.js"></script>
 
 </body>
