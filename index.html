@@ -16,11 +16,13 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css" />
 
+  <!-- Desactivado temporalmente para pruebas
   <script>
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("Service Worker.js");
+      navigator.serviceWorker.register("./service-worker.js");
     }
   </script>
+  -->
 </head>
 
 <body>
@@ -42,7 +44,7 @@
       <!-- SPRITE -->
       <img
         id="petSprite"
-        src="sprites/pet_idle.png"
+        src="./sprites/pet_idle.png"
         alt="Aquí aparecerá Tim"
         onerror="this.style.display='none'; document.getElementById('petPlaceholder').style.display='flex';"
       />
@@ -97,7 +99,7 @@
       <div class="fruitGameUI">
         <div id="fruitScore">0</div>
         <div id="fruitTimer">60s</div>
-        <img id="timPlayer" src="sprites/tim_front.png" class="tim-player" />
+        <img id="timPlayer" src="./sprites/tim_front.png" class="tim-player" />
       </div>
     </section>
 
