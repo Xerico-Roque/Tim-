@@ -58,12 +58,12 @@ const timPlayer = document.getElementById("timPlayer");
 // SPRITES
 // ======================
 const SPRITES = {
-  idle: "sprites/pet_idle.png",
-  tired: "sprites/pet_tired.png",
-  hungry: "sprites/pet_hungry.png",
-  play: "sprites/pet_play.png",
-  happy: "sprites/pet_happy.png",
-  sad: "sprites/pet_sad.png"
+  idle: "./sprites/pet_idle.png",
+  tired: "./sprites/pet_tired.png",
+  hungry: "./sprites/pet_hungry.png",
+  play: "./sprites/pet_play.png",
+  happy: "./sprites/pet_happy.png",
+  sad: "./sprites/pet_sad.png"
 };
 
 // ======================
@@ -288,14 +288,18 @@ function startFruitGame(){
       top+=speed;
       fruit.style.top=top+"px";
 
-      // Colisión simplificada
-      const timLeft = (timPos / 100) * fruitContainer.offsetWidth;
-      const timRight = timLeft + timWidth;
-      const fruitLeft = parseFloat(fruit.style.left) / 100 * fruitContainer.offsetWidth;
-      const fruitRight = fruitLeft + fruitWidth;
-      const timTop = containerHeight - 50;
+      // Colisión
+      const timLeftPx = (timPos / 100) * fruitContainer.offsetWidth;
+      const fruitLeftPx = parseFloat(fruit.style.left) / 100 * fruitContainer.offsetWidth;
+      const timBottom = containerHeight - 50;
+      const timWidthPx = 50;
+      const fruitWidthPx = 30;
 
-      if(top + fruitWidth >= timTop && fruitRight > timLeft && fruitLeft < timRight){
+      // Verificar si la fruta toca a Tim (zona inferior)
+      if (top + fruitWidthPx >= timBottom - timWidthPx && 
+          top < timBottom &&
+          fruitLeftPx + fruitWidthPx > timLeftPx && 
+          fruitLeftPx < timLeftPx + timWidthPx) {
         score+=parseInt(fruit.dataset.value);
         fruitScoreEl.textContent=score;
         fruit.remove();
