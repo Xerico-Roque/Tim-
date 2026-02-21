@@ -218,7 +218,7 @@ setInterval(applyDecay, 60000);
 // MINIJUEGO FRUTAS
 // ======================
 function startFruitGame(){
-  fruitGame.style.display="block";
+  fruitGame.classList.add("active");
   body.classList.add("fruit-game-active");
   let score=0; let timeLeft=60; let speed=4; let spawnRate=700; let timPos=45; let gameActive=true;
 
@@ -323,7 +323,7 @@ function startFruitGame(){
     if(timeLeft<=0){
       gameActive=false;
       clearInterval(spawner); clearInterval(difficulty); clearInterval(timerInterval);
-      fruitGame.style.display="none";
+      fruitGame.classList.remove("active");
       body.classList.remove("fruit-game-active");
       document.removeEventListener("keydown", keyHandler);
       fruitContainer.removeEventListener("mousemove", mouseHandler);
