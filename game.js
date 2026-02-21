@@ -115,7 +115,6 @@ feedBtn.addEventListener("click",()=>{
   const thought=prompt(TEXTS.positiveThoughtPrompt);
   if(thought && thought.trim()){
     state.barriguita = clamp(state.barriguita+5);
-    state.felicidade = clamp(state.felicidade+5);
     messageEl.textContent=TEXTS.fedMessage;
     updateBars();
     saveState();
@@ -228,6 +227,12 @@ function startFruitGame(){
   timPlayer.style.left=timPos+"%";
   lockButtons();
 
+  const fruitContainer = fruitGame.querySelector(".fruitGameUI");
+  const containerRect = fruitContainer.getBoundingClientRect();
+  const timWidth = 50;
+  const fruitWidth = 30;
+  const containerHeight = 400;
+
   // Movimiento táctil
   let touchStartX=null;
   timPlayer.addEventListener("touchstart",(e)=>{touchStartX=e.touches[0].clientX;});
@@ -236,7 +241,7 @@ function startFruitGame(){
     e.preventDefault();
     const touchX=e.touches[0].clientX;
     const deltaX=touchX-touchStartX;
-    const containerWidth=timPlayer.parentElement.offsetWidth;
+    const containerWidth=fruitContainer.offsetWidth;
     timPos+=(deltaX/containerWidth)*100;
     timPos=Math.max(0,Math.min(90,timPos));
     timPlayer.style.left=timPos+"%";
@@ -253,17 +258,16 @@ function startFruitGame(){
   };
   document.addEventListener("keydown", keyHandler);
 
-  // Movimiento con ratón (click en el UI del juego)
-  const fruitGameUI = fruitGame.querySelector(".fruitGameUI");
+  // Movimiento con ratón
   const mouseHandler = (e) => {
     if(!gameActive) return;
-    const rect = fruitGameUI.getBoundingClientRect();
+    const rect = fruitContainer.getBoundingClientRect();
     const x = e.clientX - rect.left;
     timPos = (x/rect.width)*100;
     timPos = Math.max(0, Math.min(90, timPos));
     timPlayer.style.left = timPos+"%";
   };
-  fruitGameUI.addEventListener("mousemove", mouseHandler);
+  fruitContainer.addEventListener("mousemove", mouseHandler);
 
   // Crear fruta
   function createFruit(){
@@ -275,21 +279,23 @@ function startFruitGame(){
     fruit.dataset.value=isPlancton?2:1;
     fruit.style.left=Math.random()*90+"%";
     fruit.style.top="0px";
-    fruitGame.querySelector(".fruitGameUI").appendChild(fruit);
+    fruitContainer.appendChild(fruit);
 
     const fallInterval=setInterval(()=>{
+      if(!gameActive){ clearInterval(fallInterval); return; }
       let top=parseFloat(fruit.style.top);
-      if(top>360){ fruit.remove(); clearInterval(fallInterval); return; }
+      if(top>containerHeight - 50){ fruit.remove(); clearInterval(fallInterval); return; }
       top+=speed;
       fruit.style.top=top+"px";
 
-      // Colisión
-      const fruitLeft=fruit.offsetLeft;
-      const fruitRight=fruitLeft+fruit.offsetWidth;
-      const timLeft=timPlayer.offsetLeft;
-      const timRight=timLeft+timPlayer.offsetWidth;
-      const timTop=timPlayer.offsetTop;
-      if(top+fruit.offsetHeight>=timTop && fruitRight>timLeft && fruitLeft<timRight){
+      // Colisión simplificada
+      const timLeft = (timPos / 100) * fruitContainer.offsetWidth;
+      const timRight = timLeft + timWidth;
+      const fruitLeft = parseFloat(fruit.style.left) / 100 * fruitContainer.offsetWidth;
+      const fruitRight = fruitLeft + fruitWidth;
+      const timTop = containerHeight - 50;
+
+      if(top + fruitWidth >= timTop && fruitRight > timLeft && fruitLeft < timRight){
         score+=parseInt(fruit.dataset.value);
         fruitScoreEl.textContent=score;
         fruit.remove();
@@ -302,6 +308,7 @@ function startFruitGame(){
 
   // dificultad progresiva
   let difficulty=setInterval(()=>{
+    if(!gameActive){ clearInterval(difficulty); return; }
     speed+=1;
     spawnRate=Math.max(250,spawnRate-100);
     clearInterval(spawner);
@@ -310,6 +317,7 @@ function startFruitGame(){
 
   // timer
   const timerInterval=setInterval(()=>{
+    if(!gameActive){ clearInterval(timerInterval); return; }
     timeLeft--;
     fruitTimerEl.textContent=`${timeLeft}s`;
     if(timeLeft<=0){
@@ -318,7 +326,7 @@ function startFruitGame(){
       fruitGame.style.display="none";
       body.classList.remove("fruit-game-active");
       document.removeEventListener("keydown", keyHandler);
-      if(fruitGameUI) fruitGameUI.removeEventListener("mousemove", mouseHandler);
+      fruitContainer.removeEventListener("mousemove", mouseHandler);
       unlockButtons();
       if(score>=100){ state.barriguita=clamp(state.barriguita+10); messageEl.textContent="Extra conseguido! +10 Barriguita"; }
       else{ messageEl.textContent=`Acabou o reto! Fixeches ${score} puntos`; }
