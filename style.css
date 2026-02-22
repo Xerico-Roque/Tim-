@@ -49,7 +49,7 @@ main.app {
 
 .pet-placeholder {
   position: absolute;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   text-align: center;
